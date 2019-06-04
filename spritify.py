@@ -44,7 +44,7 @@ def generate_mask_array(arr_size, mask_iter):
 	return np.array(mask)
 
 
-def im_to_sprite(im_fpath, skip_n=20, take_n=10):
+def im_to_sprite(im_fpath, skip_n=20, take_n=10, auto_size=False):
 	"""
 	Parameters
     ----------
@@ -57,6 +57,11 @@ def im_to_sprite(im_fpath, skip_n=20, take_n=10):
 	raw = cv2.cvtColor(raw, cv2.COLOR_BGR2RGB)
 
 	raw_h, raw_w, _ = raw.shape
+
+	if auto_size:
+		max_dim = max(raw.shape[:2])
+		take_n = max_dim // 30
+		skip_n = take_n * 2
 
 	mask_iter_row = mask_iterator(skip_n, take_n)
 	mask_iter_col = mask_iterator(skip_n, take_n)
